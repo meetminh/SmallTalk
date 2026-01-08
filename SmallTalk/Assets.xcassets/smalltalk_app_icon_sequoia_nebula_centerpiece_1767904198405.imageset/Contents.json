@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

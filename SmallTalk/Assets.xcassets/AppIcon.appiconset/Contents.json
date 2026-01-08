@@ -1,78 +1,67 @@
 {
   "images" : [
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405.jpg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
     },
     {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "tinted"
-        }
-      ],
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 2.jpg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 3.jpg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 4.jpg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 5.jpg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 6.jpg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 7.jpg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 9.jpg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 8.jpg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 10.jpg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
+      "filename" : "smalltalk_app_icon_sequoia_nebula_centerpiece_1767904198405 1.jpg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
