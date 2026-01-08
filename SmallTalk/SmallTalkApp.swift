@@ -10,23 +10,24 @@ import SwiftData
 
 @main
 struct SmallTalkApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    @StateObject private var appState = AppState()
 
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        MenuBarExtra {
+            MenuBarView(appState: appState)
+        } label: {
+            Image(systemName: recordingIcon)
         }
-        .modelContainer(sharedModelContainer)
+        .menuBarExtraStyle(.window)
+    }
+    
+    private var recordingIcon: String {
+        switch appState.state {
+        case .loadingModel: return "arrow.down.circle"
+        case .recording: return "mic.fill"
+        case .processing: return "sparkles"
+        case .error: return "exclamationmark.triangle"
+        default: return "waveform"
+        }
     }
 }
