@@ -11,6 +11,11 @@ import SwiftData
 @main
 struct SmallTalkApp: App {
     @StateObject private var appState = AppState()
+    
+    init() {
+        // Force the app to show in the Dock so the new icon is visible
+        NSApplication.shared.setActivationPolicy(.regular)
+    }
 
     var body: some Scene {
         MenuBarExtra {
