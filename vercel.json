@@ -1,0 +1,17 @@
+{
+    "name": "smalltalk-landing",
+    "version": 2,
+    "builds": [
+        {
+            "src": "LandingPage/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/LandingPage/$1"
+        }
+    ],
+    "outputDirectory": "LandingPage"
+}
