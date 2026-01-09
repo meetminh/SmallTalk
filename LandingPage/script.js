@@ -1,33 +1,28 @@
-// Intersection Observer for x.ai style reveals
+// Minimal reveal system matching x.ai's subtle animations
 document.addEventListener('DOMContentLoaded', () => {
     const reveals = document.querySelectorAll('.reveal');
 
-    const revealObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                // Add visible class which triggers CSS transition
                 entry.target.classList.add('visible');
-                revealObserver.unobserve(entry.target);
+                observer.unobserve(entry.target);
             }
         });
     }, {
         threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -80px 0px'
     });
 
-    reveals.forEach(el => {
-        revealObserver.observe(el);
-    });
+    reveals.forEach(el => observer.observe(el));
 
-    // Smooth scroll for nav links
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', (e) => {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(anchor.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                target.scrollIntoView({ behavior: 'smooth' });
             }
         });
     });

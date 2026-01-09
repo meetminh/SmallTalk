@@ -4,122 +4,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmallTalk | Native Voice Bridge</title>
+    <title>SmallTalk | Voice-to-Text Bridge</title>
+    <meta name="description" content="On-device voice transcription for macOS. Zero latency. Absolute privacy.">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
 <body>
-    <nav class="nav">
+
+    <!-- Navigation -->
+    <nav>
         <div class="container nav-content">
-            <a href="#" class="logo">
-                <img src="assets/logo.png" alt="SmallTalk Logo">
-                <span class="mono">SmallTalk</span>
+            <a href="#" class="logo mono">
+                <img src="assets/logo.png" alt="SmallTalk">
+                SmallTalk
             </a>
             <div class="nav-links mono">
-                <a href="#how-it-works">Technology</a>
+                <a href="#architecture">Architecture</a>
                 <a href="#performance">Performance</a>
-                <a href="assets/SmallTalk_Installer.dmg" class="active" download>Download</a>
+                <a href="assets/SmallTalk_Installer.dmg" download>Download</a>
             </div>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="container hero-content">
-            <div class="hero-meta mono reveal">Research / Jan 09, 2026</div>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="section-meta mono reveal">Release / January 09, 2026</div>
             <h1 class="reveal">
-                Announcing
+                Introducing<br>
                 <span class="outline-text">SmallTalk 1.0</span>
             </h1>
-            <p class="subtitle reveal">The highest-performance bridge between human thought and digital text. 100%
-                on-device. Zero latency.</p>
-            <div class="btn-group reveal" style="margin-top: 64px;">
-                <a href="assets/SmallTalk_Installer.dmg" class="btn btn-primary" download>Get the Binary</a>
-                <a href="#how-it-works" class="btn">View Specs</a>
-            </div>
-        </div>
-    </header>
-
-    <section class="problem">
-        <div class="container reveal">
-            <div class="section-header">
-                <div class="section-meta mono">Status Quo</div>
-                <h2>The 60 WPM Limit.</h2>
-                <p class="section-p">Standard typing locks cognitive output at 60 words per minute. SmallTalk unlocks
-                    150+ wpm with zero cognitive friction. It is a technical upgrade for the mind.</p>
+            <p class="hero-subtitle reveal">
+                The highest-performance bridge between human thought and digital text.<br>
+                100% on-device. Zero cloud dependency. Absolute privacy.
+            </p>
+            <div class="hero-cta reveal">
+                <a href="assets/SmallTalk_Installer.dmg" class="btn btn-primary" download>Download Binary</a>
+                <a href="#architecture" class="btn">View Architecture</a>
             </div>
         </div>
     </section>
 
-    <section class="solution" id="how-it-works">
+    <!-- Problem -->
+    <section>
         <div class="container reveal">
-            <div class="section-header">
-                <div class="section-meta mono">Capabilities</div>
-                <h2>Native. Fluid. Instant.</h2>
-                <p class="section-p">SmallTalk lives in your menu bar. It consumes zero resources until invoked. It
-                    disappears the moment the task is complete.</p>
-            </div>
+            <div class="section-meta mono">Background</div>
+            <h2>The 60 WPM Bottleneck</h2>
+            <p class="section-desc">
+                Standard typing caps cognitive throughput at 60 words per minute. SmallTalk unlocks 150+ wpm with zero
+                latency overhead. This is a measurable performance upgrade for the human-computer interface.
+            </p>
+        </div>
+    </section>
 
-            <div class="workflow-visual">
-                <div class="mock-window">
-                    <div class="app-mockup">
-                        <div class="mock-header">
-                            <div class="mock-title-group">
-                                <h4>SmallTalk</h4>
-                                <div class="mock-status mono">System Connected</div>
-                            </div>
+    <!-- Architecture -->
+    <section id="architecture">
+        <div class="container">
+            <div class="section-meta mono reveal">System Design</div>
+            <h2 class="reveal">Native. Fluid. Instant.</h2>
+            <p class="section-desc reveal">
+                SmallTalk operates as a menu bar utility. It consumes zero resources at idle and activates on-demand via
+                global hotkey. Transcription happens locally on Apple Silicon's Neural Engine.
+            </p>
+
+            <div class="mockup-wrapper reveal">
+                <div class="app-mockup">
+                    <div class="mockup-header">
+                        <div>
+                            <div class="mockup-title">SmallTalk</div>
+                            <div class="mockup-status mono">SYSTEM_CONNECTED</div>
                         </div>
-                        <div class="mock-body">
-                            <div class="mock-label mono">Buffer_Stream</div>
-                            <p>Dictate in here in order to start...</p>
-                        </div>
-                        <div class="mock-shortcut">
-                            <span class="mono">Trigger_Key</span>
-                            <span class="keycap mono">^⌘K</span>
-                        </div>
+                    </div>
+                    <div class="mockup-body">
+                        <div class="mockup-label mono">buffer_stream</div>
+                        <div class="mockup-text">Transcription appears here...</div>
+                    </div>
+                    <div class="mockup-footer">
+                        <span class="mono" style="font-size: 11px; color: var(--text-muted);">trigger_hotkey</span>
+                        <span class="keycap">⌃⌘K</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="features" id="performance">
+    <!-- Performance -->
+    <section id="performance">
         <div class="container">
-            <div class="section-header reveal">
-                <div class="section-meta mono">Architecture</div>
-                <h2>Performance First.</h2>
-            </div>
+            <div class="section-meta mono reveal">Specifications</div>
+            <h2 class="reveal">Performance First</h2>
+
             <div class="grid">
-                <div class="feature reveal">
-                    <div class="feature-title mono">Absolute Privacy</div>
-                    <p class="feature-desc">100% On-Device AI. Your voice data never leaves local hardware. No cloud, no
-                        tracking, no exceptions.</p>
+                <div class="grid-item reveal">
+                    <h3 class="mono">Privacy</h3>
+                    <p>100% on-device AI. Your voice data never leaves local hardware. No cloud processing. No data
+                        collection. No exceptions.</p>
                 </div>
-                <div class="feature reveal">
-                    <div class="feature-title mono">Apple Silicon</div>
-                    <p class="feature-desc">Optimized for Neural Engine. Minimal energy impact. Native SwiftUI
-                        foundation.</p>
+                <div class="grid-item reveal">
+                    <h3 class="mono">Latency</h3>
+                    <p>Real-time transcription with sub-second response. Text appears the moment you release the hotkey.
+                        No buffer delay.</p>
                 </div>
-                <div class="feature reveal">
-                    <div class="feature-title mono">Latency</div>
-                    <p class="feature-desc">Transcription happens in real-time. Release the hotkey and the text is
-                        already there.</p>
+                <div class="grid-item reveal">
+                    <h3 class="mono">Footprint</h3>
+                    <p>Optimized for Apple Silicon. Zero CPU usage at idle. Minimal memory allocation during active
+                        transcription.</p>
                 </div>
-                <div class="feature reveal">
-                    <div class="feature-title mono">Integration</div>
-                    <p class="feature-desc">Universal paste support. Works in any IDE, terminal, or document editor in
-                        macOS.</p>
+                <div class="grid-item reveal">
+                    <h3 class="mono">Integration</h3>
+                    <p>Universal paste support. Works in any text field across macOS: IDEs, terminals, browsers, and
+                        native apps.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container footer-content mono">
-            <p>&copy; 2026 SmallTalk. Native. Fast. Local.</p>
+            <p>&copy; 2026 SmallTalk. On-Device. Fast. Private.</p>
             <div class="footer-links">
-                <a href="#">X / Twitter</a>
+                <a href="https://x.com/meetminh">X</a>
                 <a href="https://github.com/meetminh/SmallTalk">GitHub</a>
             </div>
         </div>
