@@ -4,201 +4,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmallTalk | Just say it.</title>
+    <title>SmallTalk | Native Voice Bridge</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="glass-nav">
+    <nav class="nav">
         <div class="container nav-content">
-            <div class="logo">
+            <a href="#" class="logo">
                 <img src="assets/logo.png" alt="SmallTalk Logo">
-                <span>SmallTalk</span>
+                <span class="mono">SmallTalk</span>
+            </a>
+            <div class="nav-links mono">
+                <a href="#how-it-works">Technology</a>
+                <a href="#performance">Performance</a>
+                <a href="assets/SmallTalk_Installer.dmg" class="active" download>Download</a>
             </div>
-            <a href="assets/SmallTalk_Installer.dmg" class="btn btn-secondary" download>Download Free</a>
         </div>
     </nav>
 
     <header class="hero">
         <div class="container hero-content">
-            <h1 class="fade-in">Just say it.</h1>
-            <p class="subtitle fade-in-delay">The bridge between thinking and typing. <br>SmallTalk turns your voice
-                into text, instantly.</p>
-            <div class="cta-group fade-in-delay-2">
-                <a href="assets/SmallTalk_Installer.dmg" class="btn btn-primary" download>Download for macOS</a>
-                <p class="sub-cta">Free • Apple Silicon • macOS 15.6+</p>
-            </div>
-            <div class="hero-image-wrapper fade-in-delay-3">
-                <img src="assets/hero.png" alt="SmallTalk App Mockup" class="hero-img">
+            <div class="hero-meta mono reveal">Research / Jan 09, 2026</div>
+            <h1 class="reveal">
+                Announcing
+                <span class="outline-text">SmallTalk 1.0</span>
+            </h1>
+            <p class="subtitle reveal">The highest-performance bridge between human thought and digital text. 100%
+                on-device. Zero latency.</p>
+            <div class="btn-group reveal" style="margin-top: 64px;">
+                <a href="assets/SmallTalk_Installer.dmg" class="btn btn-primary" download>Get the Binary</a>
+                <a href="#how-it-works" class="btn">View Specs</a>
             </div>
         </div>
     </header>
 
     <section class="problem">
-        <div class="container section-content">
+        <div class="container reveal">
             <div class="section-header">
-                <div class="badge">The Bottleneck</div>
-                <h2>Stop typing. <br>Start thinking.</h2>
-                <p class="section-p">Standard typing locks your brain at 60 words per minute. SmallTalk unlocks 150+ wpm
-                    with zero friction. It’s a cognitive upgrade.</p>
-            </div>
-
-            <div class="problem-visual">
-                <div class="visual-card">
-                    <span class="icon">🧠</span>
-                    <span>Thinking speed</span>
-                </div>
-                <div class="visual-divider">
-                    <div class="vs">VS</div>
-                </div>
-                <div class="visual-card">
-                    <span class="icon">⌨️</span>
-                    <span>Typing latency</span>
-                </div>
+                <div class="section-meta mono">Status Quo</div>
+                <h2>The 60 WPM Limit.</h2>
+                <p class="section-p">Standard typing locks cognitive output at 60 words per minute. SmallTalk unlocks
+                    150+ wpm with zero cognitive friction. It is a technical upgrade for the mind.</p>
             </div>
         </div>
     </section>
 
     <section class="solution" id="how-it-works">
-        <div class="container">
-            <div class="solution-grid">
-                <div class="solution-text">
-                    <div class="section-header" style="text-align: left; margin-bottom: 0;">
-                        <div class="badge">Performance</div>
-                        <h2>Native. <br>Fluid. <br>Instant.</h2>
-                    </div>
+        <div class="container reveal">
+            <div class="section-header">
+                <div class="section-meta mono">Capabilities</div>
+                <h2>Native. Fluid. Instant.</h2>
+                <p class="section-p">SmallTalk lives in your menu bar. It consumes zero resources until invoked. It
+                    disappears the moment the task is complete.</p>
+            </div>
 
-                    <div class="mechanics-list">
-                        <div class="step-line">
-                            <span class="step-dot"></span>
-                            <div class="step-text"><strong>Hold <code>Cmd + Ctrl + K</code></strong> anywhere in macOS.
+            <div class="workflow-visual">
+                <div class="mock-window">
+                    <div class="app-mockup">
+                        <div class="mock-header">
+                            <div class="mock-title-group">
+                                <h4>SmallTalk</h4>
+                                <div class="mock-status mono">System Connected</div>
                             </div>
                         </div>
-                        <div class="step-line">
-                            <span class="step-dot"></span>
-                            <div class="step-text"><strong>Speak naturally</strong>—your voice stays on your Mac.</div>
+                        <div class="mock-body">
+                            <div class="mock-label mono">Buffer_Stream</div>
+                            <p>Dictate in here in order to start...</p>
                         </div>
-                        <div class="step-line">
-                            <span class="step-dot"></span>
-                            <div class="step-text"><strong>Release to Paste</strong>—text appears at your cursor.</div>
+                        <div class="mock-shortcut">
+                            <span class="mono">Trigger_Key</span>
+                            <span class="keycap mono">^⌘K</span>
                         </div>
-                    </div>
-                </div>
-                <div class="solution-visual">
-                    <div class="screenshot-container fade-in-delay">
-                        <div class="app-mockup">
-                            <div class="mock-header">
-                                <div class="mock-title-group">
-                                    <h4>SmallTalk</h4>
-                                    <div class="mock-status">Ready to record</div>
-                                </div>
-                                <div class="mock-icon">
-                                    <div class="mock-waveform">
-                                        <div class="wave-bar"></div>
-                                        <div class="wave-bar"></div>
-                                        <div class="wave-bar"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mock-body">
-                                <div class="mock-label">Latest Transcript</div>
-                                <p>Dictate in here in order to start</p>
-                            </div>
-                            <div class="mock-footer">
-                                <div class="mock-shortcut-row">
-                                    <div class="mock-shortcut-label">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <rect x="2" y="4" width="20" height="16" rx="2" />
-                                            <path d="M6 8h.01" />
-                                            <path d="M10 8h.01" />
-                                            <path d="M14 8h.01" />
-                                            <path d="M18 8h.01" />
-                                            <path d="M6 12h.01" />
-                                            <path d="M18 12h.01" />
-                                            <path d="M7 16h10" />
-                                        </svg>
-                                        Shortcut
-                                    </div>
-                                    <div class="mock-keycap">^⌘K</div>
-                                </div>
-                                <div class="mock-btn-group">
-                                    <div class="mock-btn">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2.5">
-                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                        </svg>
-                                        Permissions
-                                    </div>
-                                    <div class="mock-btn">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2.5">
-                                            <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-                                            <line x1="12" y1="2" x2="12" y2="12" />
-                                        </svg>
-                                        Quit
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="screenshot-label">Native UI recreation. Dynamic. Fast.</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="features">
+    <section class="features" id="performance">
         <div class="container">
-            <div class="section-header">
-                <div class="badge">Capabilities</div>
-                <h2>Built for the Pro.</h2>
+            <div class="section-header reveal">
+                <div class="section-meta mono">Architecture</div>
+                <h2>Performance First.</h2>
             </div>
             <div class="grid">
-                <div class="feature-card">
-                    <h3>Absolute Privacy</h3>
-                    <p>100% On-Device AI. No servers, no accounts, no tracking. Your voice data never leaves your local
-                        hardware.</p>
+                <div class="feature reveal">
+                    <div class="feature-title mono">Absolute Privacy</div>
+                    <p class="feature-desc">100% On-Device AI. Your voice data never leaves local hardware. No cloud, no
+                        tracking, no exceptions.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Minimal Footprint</h3>
-                    <p>Optimized for Apple Silicon. SmallTalk consumes zero CPU until invoked, then disappears as fast
-                        as it arrived.</p>
+                <div class="feature reveal">
+                    <div class="feature-title mono">Apple Silicon</div>
+                    <p class="feature-desc">Optimized for Neural Engine. Minimal energy impact. Native SwiftUI
+                        foundation.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Developer Context</h3>
-                    <p>Designed for technical workflows. High-accuracy transcription for complex code context and
-                        jargon.</p>
+                <div class="feature reveal">
+                    <div class="feature-title mono">Latency</div>
+                    <p class="feature-desc">Transcription happens in real-time. Release the hotkey and the text is
+                        already there.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Native Feel</h3>
-                    <p>Built with SwiftUI and AppKit. Designed to be a seamless, invisible extension of your macOS
-                        experience.</p>
+                <div class="feature reveal">
+                    <div class="feature-title mono">Integration</div>
+                    <p class="feature-desc">Universal paste support. Works in any IDE, terminal, or document editor in
+                        macOS.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="social">
-        <div class="container">
-            <div class="download-counter">
-                <div class="count" id="count">0</div>
-                <div class="label">Builders Empowered</div>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="container footer-content">
+        <div class="container footer-content mono">
             <p>&copy; 2026 SmallTalk. Native. Fast. Local.</p>
             <div class="footer-links">
                 <a href="#">X / Twitter</a>
-                <a href="#">GitHub</a>
+                <a href="https://github.com/meetminh/SmallTalk">GitHub</a>
             </div>
         </div>
     </footer>

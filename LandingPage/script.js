@@ -1,68 +1,34 @@
-// Animated Counter
-function animateCounter() {
-    const countElement = document.getElementById('count');
-    const target = 1248;
-    const duration = 2000; // 2 seconds
-    const startTime = performance.now();
-
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Easing function: easeOutExpo
-        const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-
-        const currentCount = Math.floor(easeProgress * target);
-        countElement.textContent = currentCount.toLocaleString();
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
-    }
-
-    requestAnimationFrame(update);
-}
-
-// Intersection Observer for animations
-const observerOptions = {
-    threshold: 0.2
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            if (entry.target.id === 'count') {
-                animateCounter();
-                observer.unobserve(entry.target);
-            }
-        }
-    });
-}, observerOptions);
-
+// Intersection Observer for x.ai style reveals
 document.addEventListener('DOMContentLoaded', () => {
-    const countElement = document.getElementById('count');
-    if (countElement) {
-        observer.observe(countElement);
-    }
+    const reveals = document.querySelectorAll('.reveal');
 
-    // Scroll reveal logic with staggering
-    const sections = document.querySelectorAll('section, .hero-content > *');
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, 100);
+                // Add visible class which triggers CSS transition
+                entry.target.classList.add('visible');
                 revealObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(40px)';
-        section.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
-        revealObserver.observe(section);
+    reveals.forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
 });
