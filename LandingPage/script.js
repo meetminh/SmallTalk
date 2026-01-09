@@ -8,10 +8,10 @@ function animateCounter() {
     function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Easing function: easeOutExpo
         const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        
+
         const currentCount = Math.floor(easeProgress * target);
         countElement.textContent = currentCount.toLocaleString();
 
@@ -45,21 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(countElement);
     }
 
-    // Scroll reveal logic
-    const sections = document.querySelectorAll('section');
+    // Scroll reveal logic with staggering
+    const sections = document.querySelectorAll('section, .hero-content > *');
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, 100);
+                revealObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
 
     sections.forEach(section => {
         section.style.opacity = '0';
-        section.style.transform = 'translateY(30px)';
-        section.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
+        section.style.transform = 'translateY(40px)';
+        section.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
         revealObserver.observe(section);
     });
 });
