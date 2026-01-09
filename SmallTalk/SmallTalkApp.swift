@@ -17,9 +17,32 @@ struct SmallTalkApp: App {
         NSApplication.shared.setActivationPolicy(.regular)
     }
 
+    @Environment(\.openWindow) var openWindow
+    
     var body: some Scene {
+        WindowGroup(id: "onboarding") {
+            OnboardingView(appState: appState)
+                .onDisappear {
+                    if appState.hasCompletedOnboarding {
+                        print("SmallTalkApp: Onboarding complete.")
+                    }
+                }
+        }
+        .windowResizability(.contentSize)
+        .windowStyle(.hiddenTitleBar)
+        
         MenuBarExtra {
             MenuBarView(appState: appState)
+                .onAppear {
+                    // Check if we need to show onboarding
+                    if !appState.hasCompletedOnboarding {
+                        // Small delay to ensure window system is ready
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            openWindow(id: "onboarding")
+                            NSApplication.shared.activate(ignoringOtherApps: true)
+                        }
+                    }
+                }
         } label: {
             Image(systemName: recordingIcon)
         }

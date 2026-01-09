@@ -18,6 +18,11 @@ class AppState: ObservableObject {
     @Published var lastTranscript: String = ""
     @Published var hotkeyCode: UInt32 = UserDefaults.standard.object(forKey: "hotkeyCode") as? UInt32 ?? 1 // 'S'
     @Published var hotkeyModifiers: UInt32 = UserDefaults.standard.object(forKey: "hotkeyModifiers") as? UInt32 ?? UInt32(controlKey | cmdKey)
+    @Published var hasCompletedOnboarding: Bool = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") {
+        didSet {
+            UserDefaults.standard.set(hasCompletedOnboarding, forKey: "hasCompletedOnboarding")
+        }
+    }
     
     private let audioService = AudioCaptureService()
     private let asrService = AsrService()
