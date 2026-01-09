@@ -1,5 +1,6 @@
 import SwiftUI
 import Carbon
+import CoreServices
 
 struct MenuBarView: View {
     @ObservedObject var appState: AppState
@@ -84,35 +85,28 @@ struct MenuBarView: View {
                     Button(action: { isRecordingHotkey.toggle() }) {
                         Text(isRecordingHotkey ? "Press keys..." : hotkeyString)
                             .font(.system(size: 11, weight: .bold, design: .monospaced))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(isRecordingHotkey ? Color.accentColor : Color.secondary.opacity(0.1))
-                            .foregroundColor(isRecordingHotkey ? .white : .primary)
-                            .cornerRadius(6)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(HotkeyButtonStyle(isRecording: isRecordingHotkey))
                 }
                 
                 HStack(spacing: 8) {
                     Button(action: { appState.requestPermissions() }) {
                         Label("Permissions", systemImage: "lock.shield")
-                            .font(.system(size: 11))
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.primary)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 8)
-                            .background(Color.secondary.opacity(0.1))
-                            .cornerRadius(8)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(ControlButtonStyle())
                     
                     Button(action: { NSApplication.shared.terminate(nil) }) {
                         Label("Quit", systemImage: "power")
-                            .font(.system(size: 11))
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.primary)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 8)
-                            .background(Color.secondary.opacity(0.1))
-                            .cornerRadius(8)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(ControlButtonStyle())
                 }
             }
             .padding(16)
@@ -199,11 +193,80 @@ struct MenuBarView: View {
     @State private var localMonitor: Any?
     
     private func keyName(for keyCode: UInt32) -> String {
+        // Special cases for better UX
         switch keyCode {
-        case 1: return "S"
-        case 49: return "Space"
-        default: return "K\(keyCode)"
+        case 36: return "RETURN"
+        case 48: return "TAB"
+        case 49: return "SPACE"
+        case 51: return "DELETE"
+        case 53: return "ESC"
+        case 123: return "←"
+        case 124: return "→"
+        case 125: return "↓"
+        case 126: return "↑"
+        default: break
         }
+
+        if let event = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(keyCode), keyDown: true) {
+            if let nsEvent = NSEvent(cgEvent: event) {
+                if let chars = nsEvent.charactersIgnoringModifiers, !chars.isEmpty {
+                    return chars.uppercased()
+                }
+            }
+        }
+        return "K\(keyCode)"
+    }
+}
+
+// MARK: - Premium Button Style
+struct ControlButtonStyle: ButtonStyle {
+    @State private var isHovering = false
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .contentShape(Rectangle())
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(isHovering ? Color.primary.opacity(0.1) : Color.primary.opacity(0.05))
+            )
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isHovering)
+            .animation(.interactiveSpring(), value: configuration.isPressed)
+            .onHover { hovering in
+                isHovering = hovering
+                if hovering {
+                    NSCursor.pointingHand.push()
+                } else {
+                    NSCursor.pop()
+                }
+            }
+    }
+}
+
+struct HotkeyButtonStyle: ButtonStyle {
+    let isRecording: Bool
+    @State private var isHovering = false
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(isRecording ? Color.accentColor : (isHovering ? Color.primary.opacity(0.15) : Color.primary.opacity(0.1)))
+            )
+            .foregroundColor(isRecording ? .white : .primary)
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+            .animation(.interactiveSpring(), value: isHovering)
+            .animation(.interactiveSpring(), value: configuration.isPressed)
+            .onHover { hovering in
+                isHovering = hovering
+                if hovering {
+                    NSCursor.pointingHand.push()
+                } else {
+                    NSCursor.pop()
+                }
+            }
     }
 }
 
