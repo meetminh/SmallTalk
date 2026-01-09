@@ -158,7 +158,7 @@ nav {
 }
 
 .highlight {
-    color: var(--highlight);
+    color: var(--accent);
 }
 
 .hero-subtitle {
