@@ -13,8 +13,8 @@ struct SmallTalkApp: App {
     @StateObject private var appState = AppState()
     
     init() {
-        // Force the app to show in the Dock so the new icon is visible
-        NSApplication.shared.setActivationPolicy(.regular)
+        // Set to .accessory to hide the Dock icon and behave as a background utility
+        NSApplication.shared.setActivationPolicy(.accessory)
     }
 
     @Environment(\.openWindow) var openWindow
@@ -22,11 +22,6 @@ struct SmallTalkApp: App {
     var body: some Scene {
         WindowGroup(id: "onboarding") {
             OnboardingView(appState: appState)
-                .onDisappear {
-                    if appState.hasCompletedOnboarding {
-                        print("SmallTalkApp: Onboarding complete.")
-                    }
-                }
         }
         .windowResizability(.contentSize)
         .windowStyle(.hiddenTitleBar)
@@ -34,19 +29,24 @@ struct SmallTalkApp: App {
         MenuBarExtra {
             MenuBarView(appState: appState)
                 .onAppear {
-                    // Check if we need to show onboarding
-                    if !appState.hasCompletedOnboarding {
-                        // Small delay to ensure window system is ready
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            openWindow(id: "onboarding")
-                            NSApplication.shared.activate(ignoringOtherApps: true)
-                        }
+                    // Initial check on launch: Show onboarding ONLY if permissions are missing 
+                    // and the user hasn't explicitly dismissed it once before.
+                    if !appState.allPermissionsGranted && !appState.hasCompletedOnboarding {
+                        showOnboarding()
                     }
                 }
         } label: {
             Image(systemName: recordingIcon)
         }
         .menuBarExtraStyle(.window)
+    }
+    
+    private func showOnboarding() {
+        // Small delay to ensure window system is ready
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            openWindow(id: "onboarding")
+            NSApplication.shared.activate(ignoringOtherApps: true)
+        }
     }
     
     private var recordingIcon: String {

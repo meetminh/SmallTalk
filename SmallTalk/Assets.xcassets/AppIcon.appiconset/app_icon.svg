@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+    <!-- Pure Black Background -->
+    <rect width="1024" height="1024" fill="black"/>
+    
+    <!-- Subtle Drop Shadow for the Wave -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="15"/>
+        <feOffset dx="0" dy="5" result="offsetblur"/>
+        <feFlood flood-color="white" flood-opacity="0.3"/>
+        <feComposite in2="offsetblur" operator="in"/>
+        <feMerge>
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+    </filter>
+
+    <!-- The Waveform -->
+    <g filter="url(#shadow)" transform="translate(112, 412)">
+        <path d="M0,100 L100,100 L150,50 L200,150 L250,0 L300,200 L350,50 L400,150 L450,25 L500,175 L550,75 L600,150 L650,85 L700,115 L800,100" 
+              fill="none" 
+              stroke="white" 
+              stroke-width="12" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+        
+        <!-- Glow/Frosted Layer -->
+        <path d="M0,100 L100,100 L150,50 L200,150 L250,0 L300,200 L350,50 L400,150 L450,25 L500,175 L550,75 L600,150 L650,85 L700,115 L800,100" 
+              fill="none" 
+              stroke="white" 
+              stroke-width="24" 
+              stroke-opacity="0.2"
+              stroke-linecap="round" 
+              stroke-linejoin="round"
+              filter="blur(5px)"/>
+    </g>
+</svg>

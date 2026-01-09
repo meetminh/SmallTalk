@@ -4,6 +4,7 @@ import CoreServices
 
 struct MenuBarView: View {
     @ObservedObject var appState: AppState
+    @Environment(\.openWindow) var openWindow
     @State private var isRecordingHotkey = false
     @State private var pulse = false
     
@@ -90,7 +91,10 @@ struct MenuBarView: View {
                 }
                 
                 HStack(spacing: 8) {
-                    Button(action: { appState.requestPermissions() }) {
+                    Button(action: {
+                        openWindow(id: "onboarding")
+                        NSApplication.shared.activate(ignoringOtherApps: true)
+                    }) {
                         Label("Permissions", systemImage: "lock.shield")
                             .font(.system(size: 11, weight: .medium))
                             .foregroundColor(.primary)
@@ -114,6 +118,14 @@ struct MenuBarView: View {
         .frame(width: 280)
         .onAppear {
             setupEventMonitor()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.willBecomeActiveNotification)) { _ in
+            // When the app is activated (e.g. clicking the Dock icon)
+            // Show onboarding ONLY if permissions are still missing.
+            if !appState.allPermissionsGranted {
+                openWindow(id: "onboarding")
+                NSApplication.shared.activate(ignoringOtherApps: true)
+            }
         }
     }
     

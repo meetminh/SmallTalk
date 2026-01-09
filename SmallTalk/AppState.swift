@@ -24,6 +24,19 @@ class AppState: ObservableObject {
         }
     }
     
+    var allPermissionsGranted: Bool {
+        isMicrophoneAuthorized && isAccessibilityAuthorized
+    }
+    
+    var isMicrophoneAuthorized: Bool {
+        AVCaptureDevice.authorizationStatus(for: .audio) == .authorized
+    }
+    
+    var isAccessibilityAuthorized: Bool {
+        let options = ["AXTrustedCheckOptionPrompt": false] as CFDictionary
+        return AXIsProcessTrustedWithOptions(options)
+    }
+    
     private let audioService = AudioCaptureService()
     private let asrService = AsrService()
     private let pasteService = PasteService()
