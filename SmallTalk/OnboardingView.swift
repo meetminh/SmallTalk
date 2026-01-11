@@ -8,109 +8,84 @@ struct OnboardingView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack(spacing: 30) {
-            // Header
-            VStack(spacing: 15) {
-                Image("Logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-                
-                Text("Welcome to SmallTalk")
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
-                
-                Text("Let's get you set up in seconds.")
-                    .font(.system(size: 14))
-                    .foregroundColor(.secondary)
-            }
-            .padding(.top, 30)
+        ZStack {
+            // Background
+            EffectView(material: .hudWindow, blendingMode: .behindWindow)
+                .overlay(Color.black.opacity(0.4))
+                .ignoresSafeArea()
             
-            // Steps
-            VStack(alignment: .leading, spacing: 20) {
-                // Step 1: Microphone
-                HStack {
-                    Image(systemName: "mic.fill")
-                        .font(.system(size: 18))
-                        .frame(width: 30)
-                        .foregroundColor(micAuthorized ? .green : .primary)
+            VStack(spacing: 0) {
+                // Header
+                VStack(spacing: 20) {
+                    Image("Logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 80, height: 80)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
                     
-                    VStack(alignment: .leading) {
-                        Text("Microphone Access")
-                            .font(.headline)
-                        Text("To hear and transcribe your voice.")
-                            .font(.caption)
+                    VStack(spacing: 8) {
+                        Text("Welcome to SmallTalk")
+                            .font(.system(size: 28, weight: .bold, design: .rounded))
+                            .tracking(-0.5)
+                        
+                        Text("Let's get you set up in seconds.")
+                            .font(.system(size: 15, weight: .medium))
                             .foregroundColor(.secondary)
                     }
-                    
-                    Spacer()
-                    
-                    if micAuthorized {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    } else {
-                        Button("Grant") {
-                            requestMic()
-                        }
-                    }
                 }
-                .padding()
-                .background(Color(NSColor.controlBackgroundColor).opacity(0.1))
-                .cornerRadius(12)
+                .padding(.top, 48)
+                .padding(.bottom, 40)
                 
-                // Step 2: Accessibility
-                HStack {
-                    Image(systemName: "keyboard.fill")
-                        .font(.system(size: 18))
-                        .frame(width: 30)
-                        .foregroundColor(accessibilityAuthorized ? .green : .primary)
+                // Steps
+                VStack(spacing: 16) {
+                    PermissionCard(
+                        title: "Microphone Access",
+                        subtitle: "To hear and transcribe your voice.",
+                        icon: "mic.fill",
+                        isAuthorized: micAuthorized,
+                        action: requestMic
+                    )
                     
-                    VStack(alignment: .leading) {
-                        Text("Accessibility Access")
-                            .font(.headline)
-                        Text("To paste text instantly into your apps.")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    PermissionCard(
+                        title: "Accessibility Access",
+                        subtitle: "To paste text instantly into your apps.",
+                        icon: "keyboard.fill",
+                        isAuthorized: accessibilityAuthorized,
+                        action: openAccessibilitySettings
+                    )
+                }
+                .padding(.horizontal, 24)
+                
+                Spacer()
+                
+                // Footer
+                VStack(spacing: 16) {
+                    Button(action: {
+                        completeSetup()
+                    }) {
+                        Text(allReady ? "Start Creating" : "Finish Setup")
+                            .font(.system(size: 16, weight: .bold))
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 54)
+                            .background(allReady ? Color.white : Color.white.opacity(0.1))
+                            .foregroundColor(allReady ? .black : .white.opacity(0.3))
+                            .clipShape(Capsule())
                     }
+                    .buttonStyle(.plain)
+                    .disabled(!allReady)
                     
-                    Spacer()
-                    
-                    if accessibilityAuthorized {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    } else {
-                        Button("Grant") {
-                            openAccessibilitySettings()
-                        }
+                    if !allReady {
+                        Text("Permissions required to continue")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.secondary.opacity(0.6))
                     }
                 }
-                .padding()
-                .background(Color(NSColor.controlBackgroundColor).opacity(0.1))
-                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 40)
             }
-            .padding(.horizontal)
-            
-            Spacer()
-            
-            // Footer
-            Button(action: {
-                completeSetup()
-            }) {
-                Text(allReady ? "Start Using SmallTalk" : "Finish Setup")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(allReady ? Color.blue : Color.gray.opacity(0.3))
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-            }
-            .buttonStyle(.plain)
-            .disabled(!allReady)
-            .padding(.horizontal)
-            .padding(.bottom, 30)
         }
-        .frame(width: 400, height: 550)
-        .background(EffectView(material: .hudWindow, blendingMode: .behindWindow))
+        .frame(width: 400, height: 620)
         .onAppear {
             checkPermissions()
         }
@@ -154,6 +129,64 @@ struct OnboardingView: View {
     }
 }
 
+// MARK: - Components
+struct PermissionCard: View {
+    let title: String
+    let subtitle: String
+    let icon: String
+    let isAuthorized: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(isAuthorized ? Color.green.opacity(0.15) : Color.white.opacity(0.05))
+                    .frame(width: 44, height: 44)
+                
+                Image(systemName: icon)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(isAuthorized ? .green : .secondary)
+            }
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 15, weight: .semibold))
+                Text(subtitle)
+                    .font(.system(size: 12))
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer()
+            
+            if isAuthorized {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(.green)
+                    .symbolRenderingMode(.hierarchical)
+            } else {
+                Button(action: action) {
+                    Text("Grant")
+                        .font(.system(size: 12, weight: .bold))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(Color.white.opacity(0.1))
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(isAuthorized ? Color.green.opacity(0.3) : Color.white.opacity(0.1), style: StrokeStyle(lineWidth: 1, dash: isAuthorized ? [] : [4, 4]))
+        )
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(isAuthorized ? Color.green.opacity(0.05) : Color.black.opacity(0.2))
+        )
+    }
+}
 
 struct EffectView: NSViewRepresentable {
     let material: NSVisualEffectView.Material
