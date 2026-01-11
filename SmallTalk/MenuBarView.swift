@@ -127,6 +127,16 @@ struct MenuBarView: View {
                 NSApplication.shared.activate(ignoringOtherApps: true)
             }
         }
+        .onChange(of: isRecordingHotkey) { _, newValue in
+            if newValue {
+                setupEventMonitor()
+            } else {
+                removeEventMonitor()
+            }
+        }
+        .onDisappear {
+            removeEventMonitor()
+        }
     }
     
     // ... helper methods (hotkeyString, setupEventMonitor, keyName, colors) remain below
@@ -173,11 +183,7 @@ struct MenuBarView: View {
     }
     
     private func setupEventMonitor() {
-        // Remove any existing monitor just in case
-        if let existing = localMonitor {
-            NSEvent.removeMonitor(existing)
-            localMonitor = nil
-        }
+        removeEventMonitor()
         
         localMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
             if isRecordingHotkey {
@@ -190,15 +196,16 @@ struct MenuBarView: View {
                 
                 appState.updateHotkey(keyCode: UInt32(event.keyCode), modifiers: carbonModifiers)
                 isRecordingHotkey = false
-                
-                // Remove monitor after we're done
-                if let monitor = localMonitor {
-                    NSEvent.removeMonitor(monitor)
-                    localMonitor = nil
-                }
                 return nil
             }
             return event
+        }
+    }
+    
+    private func removeEventMonitor() {
+        if let monitor = localMonitor {
+            NSEvent.removeMonitor(monitor)
+            localMonitor = nil
         }
     }
     
