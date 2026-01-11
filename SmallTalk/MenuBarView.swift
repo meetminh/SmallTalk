@@ -92,8 +92,7 @@ struct MenuBarView: View {
                 
                 HStack(spacing: 8) {
                     Button(action: {
-                        openWindow(id: "onboarding")
-                        NSApplication.shared.activate(ignoringOtherApps: true)
+                        bringOnboardingToFrontOrOpen()
                     }) {
                         Label("Permissions", systemImage: "lock.shield")
                             .font(.system(size: 11, weight: .medium))
@@ -206,6 +205,19 @@ struct MenuBarView: View {
         if let monitor = localMonitor {
             NSEvent.removeMonitor(monitor)
             localMonitor = nil
+        }
+    }
+    
+    private func bringOnboardingToFrontOrOpen() {
+        // Check if an onboarding window already exists
+        if let existingWindow = NSApplication.shared.windows.first(where: { $0.identifier?.rawValue == "onboarding" }) {
+            // Bring existing window to front
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApplication.shared.activate(ignoringOtherApps: true)
+        } else {
+            // Open new window
+            openWindow(id: "onboarding")
+            NSApplication.shared.activate(ignoringOtherApps: true)
         }
     }
     
