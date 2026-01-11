@@ -209,13 +209,11 @@ struct MenuBarView: View {
     }
     
     private func bringOnboardingToFrontOrOpen() {
-        // Check if an onboarding window already exists
-        if let existingWindow = NSApplication.shared.windows.first(where: { $0.identifier?.rawValue == "onboarding" }) {
-            // Bring existing window to front
+        // Check for window by title as it's more reliable than identifiers in SwiftUI
+        if let existingWindow = NSApplication.shared.windows.first(where: { $0.title == "SmallTalk Permissions" }) {
             existingWindow.makeKeyAndOrderFront(nil)
             NSApplication.shared.activate(ignoringOtherApps: true)
         } else {
-            // Open new window
             openWindow(id: "onboarding")
             NSApplication.shared.activate(ignoringOtherApps: true)
         }

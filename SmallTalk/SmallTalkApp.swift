@@ -20,7 +20,7 @@ struct SmallTalkApp: App {
     @Environment(\.openWindow) var openWindow
     
     var body: some Scene {
-        WindowGroup(id: "onboarding") {
+        Window("SmallTalk Permissions", id: "onboarding") {
             OnboardingView(appState: appState)
         }
         .windowResizability(.contentSize)
