@@ -3,43 +3,57 @@ import AVFoundation
 import Carbon
 import Combine
 
+// MARK: - Design Tokens (Premium Dark Theme)
+private enum DesignTokens {
+    static let bgPrimary = Color.black
+    static let cardBg = Color(red: 0.11, green: 0.11, blue: 0.118) // #1C1C1E
+    static let cardBorder = Color.white.opacity(0.08)
+    static let textPrimary = Color.white
+    static let textSecondary = Color(red: 0.557, green: 0.557, blue: 0.576) // #8E8E93
+    static let success = Color(red: 0.204, green: 0.78, blue: 0.349) // #34C759
+    
+    static let cornerRadius: CGFloat = 20
+    static let cardPadding: CGFloat = 20
+    static let contentPadding: CGFloat = 24
+}
+
 struct OnboardingView: View {
     @ObservedObject var appState: AppState
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
-            // Background
-            EffectView(material: .hudWindow, blendingMode: .behindWindow)
-                .overlay(Color.black.opacity(0.4))
+            // Pure black background
+            DesignTokens.bgPrimary
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header
-                VStack(spacing: 20) {
+                VStack(spacing: 24) {
                     Image("Logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                        .frame(width: 72, height: 72)
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 10)
                     
                     VStack(spacing: 8) {
                         Text("Welcome to SmallTalk")
-                            .font(.system(size: 28, weight: .bold, design: .rounded))
+                            .font(.system(size: 28, weight: .bold))
                             .tracking(-0.5)
+                            .foregroundColor(DesignTokens.textPrimary)
                         
                         Text("Let's get you set up in seconds.")
                             .font(.system(size: 15, weight: .medium))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(DesignTokens.textSecondary)
                     }
                 }
-                .padding(.top, 48)
-                .padding(.bottom, 40)
+                .padding(.top, 56)
+                .padding(.bottom, 48)
                 
-                // Steps
+                // Permission Cards
                 VStack(spacing: 16) {
-                    PermissionCard(
+                    PermissionCardView(
                         title: "Microphone Access",
                         subtitle: "To hear and transcribe your voice.",
                         icon: "mic.fill",
@@ -47,7 +61,7 @@ struct OnboardingView: View {
                         action: requestMic
                     )
                     
-                    PermissionCard(
+                    PermissionCardView(
                         title: "Accessibility Access",
                         subtitle: "To paste text instantly into your apps.",
                         icon: "keyboard.fill",
@@ -55,20 +69,18 @@ struct OnboardingView: View {
                         action: openAccessibilitySettings
                     )
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, DesignTokens.contentPadding)
                 
                 Spacer()
                 
-                // Footer
-                VStack(spacing: 16) {
-                    Button(action: {
-                        completeSetup()
-                    }) {
-                        Text(allReady ? "Start Creating" : "Finish Setup")
-                            .font(.system(size: 16, weight: .bold))
+                // Floating Action Bar
+                VStack(spacing: 12) {
+                    Button(action: completeSetup) {
+                        Text(allReady ? "Start Creating" : "Complete Setup")
+                            .font(.system(size: 17, weight: .semibold))
                             .frame(maxWidth: .infinity)
-                            .frame(height: 54)
-                            .background(allReady ? Color.white : Color.white.opacity(0.1))
+                            .frame(height: 56)
+                            .background(allReady ? Color.white : Color.white.opacity(0.08))
                             .foregroundColor(allReady ? .black : .white.opacity(0.3))
                             .clipShape(Capsule())
                     }
@@ -76,16 +88,22 @@ struct OnboardingView: View {
                     .disabled(!allReady)
                     
                     if !allReady {
-                        Text("Permissions required to continue")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundColor(.secondary.opacity(0.6))
+                        Text("Grant permissions above to continue")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(DesignTokens.textSecondary.opacity(0.6))
                     }
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 40)
+                .padding(DesignTokens.contentPadding)
+                .background(
+                    RoundedRectangle(cornerRadius: DesignTokens.cornerRadius)
+                        .fill(DesignTokens.cardBg)
+                        .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: -5)
+                )
+                .padding(.horizontal, 16)
+                .padding(.bottom, 24)
             }
         }
-        .frame(width: 400, height: 620)
+        .frame(width: 400, height: 580)
         .onAppear {
             checkPermissions()
         }
@@ -94,7 +112,7 @@ struct OnboardingView: View {
         }
     }
     
-    // MARK: - Logic
+    // MARK: - State & Logic
     @State private var micAuthorized = false
     @State private var accessibilityAuthorized = false
     
@@ -103,9 +121,7 @@ struct OnboardingView: View {
     }
     
     private func checkPermissions() {
-        // Mic
         micAuthorized = AVCaptureDevice.authorizationStatus(for: .audio) == .authorized
-        // Accessibility
         let options = ["AXTrustedCheckOptionPrompt": false] as CFDictionary
         accessibilityAuthorized = AXIsProcessTrustedWithOptions(options)
     }
@@ -129,8 +145,8 @@ struct OnboardingView: View {
     }
 }
 
-// MARK: - Components
-struct PermissionCard: View {
+// MARK: - Permission Card Component
+struct PermissionCardView: View {
     let title: String
     let subtitle: String
     let icon: String
@@ -139,69 +155,58 @@ struct PermissionCard: View {
     
     var body: some View {
         HStack(spacing: 16) {
+            // Icon Circle
             ZStack {
                 Circle()
-                    .fill(isAuthorized ? Color.green.opacity(0.15) : Color.white.opacity(0.05))
-                    .frame(width: 44, height: 44)
+                    .fill(isAuthorized ? DesignTokens.success.opacity(0.15) : DesignTokens.cardBg)
+                    .frame(width: 48, height: 48)
                 
                 Image(systemName: icon)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(isAuthorized ? .green : .secondary)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(isAuthorized ? DesignTokens.success : DesignTokens.textSecondary)
             }
             
-            VStack(alignment: .leading, spacing: 2) {
+            // Text
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(DesignTokens.textPrimary)
                 Text(subtitle)
-                    .font(.system(size: 12))
-                    .foregroundColor(.secondary)
+                    .font(.system(size: 13))
+                    .foregroundColor(DesignTokens.textSecondary)
             }
             
             Spacer()
             
+            // Action
             if isAuthorized {
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 20))
-                    .foregroundColor(.green)
-                    .symbolRenderingMode(.hierarchical)
+                    .font(.system(size: 24))
+                    .foregroundColor(DesignTokens.success)
             } else {
                 Button(action: action) {
                     Text("Grant")
-                        .font(.system(size: 12, weight: .bold))
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(DesignTokens.textPrimary)
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 10)
                         .background(Color.white.opacity(0.1))
                         .clipShape(Capsule())
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
             }
         }
-        .padding(16)
+        .padding(DesignTokens.cardPadding)
         .background(
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(isAuthorized ? Color.green.opacity(0.3) : Color.white.opacity(0.1), style: StrokeStyle(lineWidth: 1, dash: isAuthorized ? [] : [4, 4]))
+            RoundedRectangle(cornerRadius: DesignTokens.cornerRadius)
+                .fill(DesignTokens.cardBg)
         )
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(isAuthorized ? Color.green.opacity(0.05) : Color.black.opacity(0.2))
+        .overlay(
+            RoundedRectangle(cornerRadius: DesignTokens.cornerRadius)
+                .stroke(
+                    isAuthorized ? DesignTokens.success.opacity(0.4) : DesignTokens.cardBorder,
+                    style: StrokeStyle(lineWidth: 1, dash: isAuthorized ? [] : [6, 4])
+                )
         )
-    }
-}
-
-struct EffectView: NSViewRepresentable {
-    let material: NSVisualEffectView.Material
-    let blendingMode: NSVisualEffectView.BlendingMode
-    
-    func makeNSView(context: Context) -> NSVisualEffectView {
-        let view = NSVisualEffectView()
-        view.material = material
-        view.blendingMode = blendingMode
-        view.state = .active
-        return view
-    }
-    
-    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
-        nsView.material = material
-        nsView.blendingMode = blendingMode
     }
 }
