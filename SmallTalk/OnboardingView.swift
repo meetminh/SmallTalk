@@ -73,13 +73,13 @@ struct OnboardingView: View {
                 
                 Spacer()
                 
-                // Floating Action Bar
+                // Primary Button (no background card)
                 VStack(spacing: 12) {
                     Button(action: completeSetup) {
                         Text(allReady ? "Start Creating" : "Complete Setup")
-                            .font(.system(size: 17, weight: .semibold))
+                            .font(.system(size: 16, weight: .semibold))
                             .frame(maxWidth: .infinity)
-                            .frame(height: 56)
+                            .frame(height: 48)
                             .background(allReady ? Color.white : Color.white.opacity(0.08))
                             .foregroundColor(allReady ? .black : .white.opacity(0.3))
                             .clipShape(Capsule())
@@ -93,14 +93,8 @@ struct OnboardingView: View {
                             .foregroundColor(DesignTokens.textSecondary.opacity(0.6))
                     }
                 }
-                .padding(DesignTokens.contentPadding)
-                .background(
-                    RoundedRectangle(cornerRadius: DesignTokens.cornerRadius)
-                        .fill(DesignTokens.cardBg)
-                        .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: -5)
-                )
-                .padding(.horizontal, 16)
-                .padding(.bottom, 24)
+                .padding(.horizontal, DesignTokens.contentPadding)
+                .padding(.bottom, 32)
             }
         }
         .frame(width: 400, height: 580)
